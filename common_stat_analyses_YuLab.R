@@ -34,12 +34,12 @@ t.test(y1$prop_SA_objects,y2$prop_SA_objects,paired=FALSE)#where y1 and y2 are n
 # Dependent Samples t-test ------------------------------------------------
   #ASSUMPTION
 
-#Does infants spend more time looking at the target object or any other object when
+#Do infants spend more time looking at the target object or any other object when
 #an object utterance is produced? 
 
 #Question: 
 
-#proporotion of 'prop_ceye_outofNaming_objects' (out of naming utternace spent looking at any object) v. 'prop_ceye_outofNaming_target'
+#proportion of 'prop_ceye_outofNaming_objects' (out of naming utterance spent looking at any object) v. 'prop_ceye_outofNaming_target'
 #(out of naming spent looking at target )
 
 y1 <- dat$prop_ceye_outofNaming_objects
@@ -241,16 +241,17 @@ library(nlme)
 
 #checking assumptions of linear mixed effects models
 #normality of residuals
-q1 = qqnorm(residuals(model1), main="M1- Normal Q-Q Plot")
-hist(residuals(model1))
-shapiro.test(residuals(model1))
-plot(model1)
+q1 = qqnorm(residuals(fit1), main="M1- Normal Q-Q Plot")
+hist(residuals(fit1))
+shapiro.test(residuals(fit1))
+plot(fit1)
 
-#homegeneity of variance
-leveneTest(dv1,group =iv)
+#homegeneity of variance, can be relaxed...
+#see... https://stats.stackexchange.com/questions/123648/residual-diagnostics-and-homogeneity-of-variances-in-linear-mixed-model
+leveneTest(lmer.dat$duration_of_look,group =lmer.dat$overlapping_pbehaviors)
 
 # normality of the random coefficients
-randef = random.effects(model1) #$`(Intercept)`
+randef = random.effects(fit1) #$`(Intercept)`
 rander_new=unlist(randef, recursive = TRUE, use.names = TRUE)
 hist(rander_new, prob=TRUE, col="grey",xlab="Histogram of random effects")
 #checking normality of the random coefficients
